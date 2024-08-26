@@ -15,7 +15,7 @@ func removeSpaces(text string) string {
 	return strings.ReplaceAll(res, " ", "")
 }
 
-func checkRange(number int) bool {
+func isRange(number int) bool {
 	if number < 1 || number > 10 {
 		return false
 	}
@@ -93,17 +93,35 @@ func intToRoman(number int) string {
 }
 
 func handleOperation(number1 int, operation string, number2 int) int {
-	switch operation {
-	case "+":
-		return number1 + number2
-	case "-":
-		return number1 - number2
-	case "*":
-		return number1 * number2
-	case "/":
-		return number1 / number2
+	//check if number is in range
+	if isRange(number1) && isRange(number2) {
+		switch operation {
+		case "+":
+			return number1 + number2
+		case "-":
+			return number1 - number2
+		case "*":
+			return number1 * number2
+		case "/":
+			return number1 / number2
+
+		}
+	} else {
+		panic("number out of range")
 	}
 	return 0
+
+}
+
+func handleWithRoman(first string, operation string, second string) string {
+	number1 := romanToInt(first)
+	number2 := romanToInt(second)
+	result := handleOperation(number1, operation, number2)
+
+	if result < 1 {
+		panic("there are no negative Roman numbers")
+	}
+	return intToRoman(result)
 }
 
 func handleCommand(str string) string {
@@ -129,32 +147,23 @@ func handleCommand(str string) string {
 
 			//operation with roman numbers
 			if isRoman(values[0]) && isRoman(values[1]) {
-				number1 := romanToInt(values[0])
-				number2 := romanToInt(values[1])
-				result := handleOperation(number1, operations[0], number2)
-				if result < 1 {
-					panic("there are no negative Roman numbers")
+				return handleWithRoman(values[0], operations[0], values[1])
+
+			//operation with arabic numbers
+			} else {
+				number1, err := strconv.Atoi(values[0])
+				if err != nil {
+					panic("first number is not a integer")
 				}
-				return intToRoman(result)
-			}
 
-			number1, err := strconv.Atoi(values[0])
-			if err != nil {
-				panic("first number is not a number")
-			}
+				number2, err := strconv.Atoi(values[1])
+				if err != nil {
+					panic("second number is not a integer")
+				}
 
-			number2, err := strconv.Atoi(values[1])
-			if err != nil {
-				panic("second number is not a integer")
+				result := handleOperation(number1, operations[0], number2)
+				return strconv.Itoa(result)
 			}
-
-			//check if number is in range
-			if !checkRange(number1) || !checkRange(number2) {
-				panic("number out of range")
-			}
-
-			result := handleOperation(number1, operations[0], number2)
-			return strconv.Itoa(result)
 
 		}
 	}
@@ -169,7 +178,8 @@ func main() {
 		fmt.Print("-> ")
 		text, _ := reader.ReadString('\n')
 
-		handleCommand(text)
+		var result = handleCommand(text)
+		fmt.Println(result)
 
 	}
 

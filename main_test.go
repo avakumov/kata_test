@@ -5,16 +5,6 @@ import (
 	"testing"
 )
 
-func TestCheckRange(t *testing.T) {
-	if checkRange(11) {
-		t.Errorf("checkRange(11) = true, want false")
-	}
-
-	if checkRange(-1) {
-		t.Errorf("checkRange(-1) = true, want false")
-	}
-
-}
 
 func TestHandleCommandArabic(t *testing.T) {
 	assert.Equal(t, "20", handleCommand("10 + 10"))
@@ -55,4 +45,5 @@ func TestHandleCommandPanicRoman(t *testing.T) {
 	assert.Panics(t, func() { handleCommand("V/VI") })
 	assert.Panics(t, func() { handleCommand("V a I") })
 	assert.Panics(t, func() { handleCommand("I - I") })
+	assert.Panics(t, func() { handleCommand("XX - I") })
 }
