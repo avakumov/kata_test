@@ -11,6 +11,7 @@ import (
 
 func removeSpaces(text string) string {
 	res := strings.ReplaceAll(text, "\t", "")
+	res = strings.ReplaceAll(res, "\r", "")
 	res = strings.ReplaceAll(res, "\n", "")
 	return strings.ReplaceAll(res, " ", "")
 }
@@ -149,7 +150,7 @@ func handleCommand(str string) string {
 			if isRoman(values[0]) && isRoman(values[1]) {
 				return handleWithRoman(values[0], operations[0], values[1])
 
-			//operation with arabic numbers
+		    //operation with arabic numbers
 			} else {
 				number1, err := strconv.Atoi(values[0])
 				if err != nil {
