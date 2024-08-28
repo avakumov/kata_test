@@ -23,14 +23,22 @@ func isRange(number int) bool {
 	return true
 }
 
-func isRoman(number string) bool {
-	for _, r := range number {
-		if !(r == 'I' || r == 'V' || r == 'X') {
-			return false
-		}
+func isRoman(str string) bool {
+	roman := map[string]int{
+		"I":1,
+		"II":2,
+		"III":3,
+		"IV":4,
+		"V":5,
+		"VI":6,
+		"VII":7,
+		"VIII":8,
+		"IX":9,
+		"X":10,
 	}
+	_, ok := roman[str]
 
-	return true
+	return ok
 }
 
 func romanToInt(s string) int {

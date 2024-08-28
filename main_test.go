@@ -46,4 +46,5 @@ func TestHandleCommandPanicRoman(t *testing.T) {
 	assert.Panics(t, func() { handleCommand("V a I") })
 	assert.Panics(t, func() { handleCommand("I - I") })
 	assert.Panics(t, func() { handleCommand("XX - I") })
+	assert.Panics(t, func() { handleCommand("IIII - I") })
 }
